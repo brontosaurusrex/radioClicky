@@ -31,7 +31,7 @@ store="$HOME/.config/radioClicky"
 mpvtxt="$store/mpv.txt"
 #mpverr="$store/mpv.err"
 idPath="$store/id"
-recPath="$store/rec"
+recPath="$HOME/tmp/rec"
 pipe="$store/pipe"
 metacache="$store/meta"
 sound="$store/sounds"
@@ -317,7 +317,7 @@ spam () { # continous = never exits, kill with killall radioClicky
                     
                     tty -s; # if not run from terminal, show notify popup as well
                     if ! [ "0" == "$?" ]; then
-                        notify-send -u normal "$tmpinfo" 2>/dev/null
+                        notify-send -u low "$tmpinfo" 2>/dev/null
                     fi
                     
                 fi
@@ -385,13 +385,13 @@ elif [ "$1" == "test" ]; then
 
     isRunning
 
-elif [ "$1" == "play" ] || [ "$1" == "p" ]; then
+elif [ "$1" == "play" ] || [ "$1" == "p" ] || [ "$1" == "on" ]; then
     
     if ! isRunning; then
         on
     fi
 
-elif [ "$1" == "stop" ] || [ "$1" == "s" ]; then
+elif [ "$1" == "stop" ] || [ "$1" == "s" ] || [ "$1" == "off" ]; then
     
     if isRunning; then
         off
@@ -567,8 +567,8 @@ reasonably modern mpv, socat, notify-send, sed, grep, pgrep (procps), latest tin
 
 radioClicky     # show status
 toggle or t     # on/off
-play or p       # on
-stop or s       # off
+play or on or p # on
+stop or off or s# off
 notify or n     # notify-send icy-title or stream url
 last or l       # cli print last 21 quasi-unique icy-titles
 list or ls      # cli list streams
