@@ -1,8 +1,7 @@
 # radioClicky
 
-<https://forums.bunsenlabs.org/viewtopic.php?id=4226>
+Bash script to play some radio streams.
 
-
-## streams
-
-<http://www.radio-browser.info/gui/#/topclick>
+    radioClicky --sysinfo
+    radioClicky --help
+    radioClicky --play
