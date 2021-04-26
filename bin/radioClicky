@@ -1,35 +1,15 @@
 #!/bin/bash
 
+#set -x
+
 array=(
-http://wfmu.org/wfmu.pls
-http://wruv.org/wruv256.m3u
-http://listen.xray.fm:8000/stream
-https://kexp-mp3-128.streamguys1.com/kexp128.mp3
-http://relay.181.fm:8064
-http://relay.181.fm:8000
-http://relay.181.fm:8002
-http://streaming.radionomy.com:80/12Bar
-http://stream-eu1.radioparadise.com/aac-320
-http://19353.live.streamtheworld.com/977_HITS_SC
-http://icyrelay.181.fm/181-vibe_128k.mp3
-http://stream.radiorox.no/rox128.mp3
-http://streaming.radionomy.com/1291AlternativeRock
-http://streams.ffh.de/ffhchannels/aac/hqrock.m3u
-http://www.listenlive.eu/bandit_aac_hq.m3u
-http://broadcast.infomaniak.ch/energyrock-high.mp3.m3u
-http://us2.internet-radio.com:8046/listen.pls
-http://184.75.223.178:8067/listen.pls
-http://listen.181fm.com/181-beatles_128k.mp3
-http://listen.181fm.com/181-buzz_128k.mp3
-http://listen.181fm.com/181-hardrock_128k.mp3
-http://104.236.145.45:8000/stream
-http://ice1.somafm.com/dubstep-256-mp3
+
 )
 
 # store paths
 store="$HOME/.config/radioClicky"
 mpvtxt="$store/mpv.txt"
-#mpverr="$store/mpv.err"
+mpverr="$store/mpv.err"
 idPath="$store/id"
 recPath="$HOME/tmp/rec"
 pipe="$store/pipe"
@@ -117,8 +97,9 @@ start () {
         # this only runs if not started before
         #rm -f "$pipe"
         #mkfifo "$pipe" #2> /dev/null
-        mpv --idle --no-config --no-video --no-resume-playback --no-ytdl --cache-secs 7 --af=lavfi=[loudnorm=LRA=10:I=-17] --input-ipc-server="$pipe" >> "$mpvtxt" 2> /dev/null &
+        mpv --idle --no-config --no-video --no-resume-playback --no-ytdl --af=lavfi=[loudnorm=LRA=10:I=-17] --input-ipc-server="$pipe" >> "$mpvtxt" 2> /dev/null &
         klik # sound
+        # --cache-secs 7 
     fi
 }
 
