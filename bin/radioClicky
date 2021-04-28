@@ -358,7 +358,6 @@ radioClicky
 requires: reasonably modern mpv, socat, notify-send, sed, grep, pgrep (procps), inotify-tools, jq
 can use: tint2, openbox pipe menu
 
-radioClicky     # show status
 --toggle -t     # on/off
 --play   -p     # on
 --stop   -s     # off
