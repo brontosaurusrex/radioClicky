@@ -87,6 +87,7 @@ klik () {
     if [ -d "$sound" ]; then # play klik sound
         klik=$(find "$sound" -type f | shuf -n 1)
         mpv "$klik" --no-config --no-video --no-resume-playback --no-ytdl &> /dev/null &
+        sleep 0.4 && flite -voice slt -t "$id" &> /dev/null &
     fi
 }
 
@@ -175,6 +176,8 @@ switch () {
         on
     fi
     klik # sound
+    #echo "$id" | festival --tts &> /dev/null
+    
 }
 
 list () {
