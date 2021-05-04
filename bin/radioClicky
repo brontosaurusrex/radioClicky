@@ -12,6 +12,7 @@ mpvtxt="$store/mpv.txt"
 mpverr="$store/mpv.err"
 idPath="$store/id"
 recPath="$HOME/tmp/rec"
+recPath="/mnt/d/tmp/rec"
 pipe="$store/pipe"
 metacache="$store/meta"
 sound="$store/sounds"
@@ -510,20 +511,25 @@ elif [ "$1" == "--icy" ] || [ "$1" == "-c" ]; then # head/curl icy metadata filt
     icy
     
 elif [ "$1" == "--rec" ]; then # streamripper record
-    
-    tmpinfo="$(sed -n 's/^Playing: //p' "$mpvtxt" | tail -1)"
-    
-    shift # propagate all remaining parameters to streamripper
-    echo "$tmpinfo recording to $recPath using streamripper, ctrl+c to stop"
-    if ! [[ -z "$@" ]]; then # echo remaining parameters if there are some
-        echo "$@"
+
+    # Why not just ask mpv what station we are on? (since mpv log seems to vary by versions) < 2021 fix
+    if isRunning; then
+        tmpinfo="$(echo '{ "command": ["get_property", "stream-path"] }' | socat - "$pipe" | jq -r .data | grep -i -v -E "{|}|icy-pub" | sed -e 's/^[ \t]*//' | sed -e 's/\"//g')"
+
+        echo "$tmpinfo recording to $recPath using streamripper, ctrl+c to stop"
+        streamripper "$tmpinfo" -d "$recPath" -s -u "WinampMPEG/5.0"
+        
+    else
+        echo "player must be running at the time of request."
     fi
-    streamripper "$tmpinfo" -d "$recPath" -s -u "WinampMPEG/5.0" "$@"
 
 elif [ "$1" == "--wrec" ]; then # wget record
 
-    tmpinfo="$(sed -n 's/^Playing: //p' "$mpvtxt" | tail -1)"
-    echo "$tmpinfo recording to $recPath using wget, ctrl+c to stop"
+    # Why not just ask mpv what station we are on? (since mpv log seems to vary by versions) < 2021 fix
+    if isRunning; then
+        tmpinfo="$(echo '{ "command": ["get_property", "stream-path"] }' | socat - "$pipe" | jq -r .data | grep -i -v -E "{|}|icy-pub" | sed -e 's/^[ \t]*//' | sed -e 's/\"//g')"
+        
+        echo "$tmpinfo recording to $recPath using wget, ctrl+c to stop"
     
         # random word dictionary function
         randomword()  {
@@ -539,6 +545,10 @@ elif [ "$1" == "--wrec" ]; then # wget record
         #echo "$word.$date.mp3"
         
         wget -O "$recPath/$word.$date.audio" "$tmpinfo"
+    
+    else
+        echo "player must be running at the time of request."
+    fi
     
 elif [ "$1" == "--spam" ]; then # spamme continous
 
