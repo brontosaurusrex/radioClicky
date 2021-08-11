@@ -88,7 +88,11 @@ klik () {
     if [ -d "$sound" ]; then # play klik sound
         klik=$(find "$sound" -type f | shuf -n 1)
         mpv "$klik" --no-config --no-video --no-resume-playback --no-ytdl &> /dev/null &
-        sleep 0.4 && flite -voice slt -t "$id" &> /dev/null &
+        if [[ -z "$1" ]]; then
+            sleep 0.4 && flite -voice slt -t "$id" &> /dev/null &
+        else
+            sleep 0.4 && flite -voice slt -t "$1" &> /dev/null &
+        fi
     fi
 }
 
@@ -100,14 +104,14 @@ start () {
         #rm -f "$pipe"
         #mkfifo "$pipe" #2> /dev/null
         mpv --idle --no-config --no-video --no-resume-playback --no-ytdl --af=lavfi=[loudnorm=LRA=10:I=-17] --input-ipc-server="$pipe" >> "$mpvtxt" 2> /dev/null &
-        klik # sound
+        klik "on" # sound
         # --cache-secs 7 
     fi
 }
 
 off () {
 
-    klik # sound
+    klik "off" # sound
     if isRunning; then # quit it and delete pipe
         metacache # cache icy metadata
         echo '{ "command": ["quit"] }' | socat - "$pipe" &> /dev/null 
