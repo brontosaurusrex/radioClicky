@@ -8,6 +8,8 @@ Bash script to play some radio streams.
 1. Make sure that radioList is populated and to be found, by deafult "$HOME/.config/radioClicky/radiolist"
 1. Optionaly copy flac samples to "$HOME/.config/radioClicky/sounds"
 
+Video guide https://youtu.be/ii0PPDvi1wc
+
 ## Usage
 
     radioClicky --sysinfo
