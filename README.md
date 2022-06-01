@@ -4,7 +4,9 @@ Bash script to play some radio streams.
 
 ## Install
 
-Copy bin/radioClicky somewhere on path. Optionaly copy flac samples to .config/radioClicky/sounds.
+1. Copy bin/radioClicky somewhere on path. 
+1. Make sure that radioList is populated and to be found, by deafult "$HOME/.config/radioClicky/radiolist"
+1. Optionaly copy flac samples to "$HOME/..config/radioClicky/sounds"
 
 ## Usage
 
